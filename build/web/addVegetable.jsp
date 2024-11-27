@@ -110,51 +110,89 @@
                 width: 20px;
                 height: 20px;
             }
+            .form-control[type="file"] {
+                padding: 8px;
+                border: 1px dashed #ddd;
+                background-color: #f8f9fa;
+            }
+
+            .form-control[type="file"]:hover {
+                background-color: #e9ecef;
+            }
+
+            #imagePreview {
+                margin-top: 10px;
+            }
+
+            #imagePreview img {
+                border-radius: 4px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
         </style>
     </head>
     <body>
         <jsp:include flush="true" page="header.jsp"/>
-        
+
         <div class="container" style="width: 800px">
             <h2 class="form-title">Thêm Sản Phẩm Mới</h2>
-            
-            <form action="addVegetable" method="POST" class="add-form">
+
+            <form action="addVegetable" method="POST" class="add-form" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="name">Tên sản phẩm:</label>
                     <input type="text" id="name" name="name" class="form-control" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="price">Giá (VNĐ):</label>
                     <input type="number" id="price" name="price" class="form-control" min="0" step="1000" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="description">Mô tả:</label>
                     <textarea id="description" name="description" class="form-control" required></textarea>
                 </div>
-                
                 <div class="form-group">
-                    <label for="imgSrc">Link hình ảnh:</label>
-                    <input type="text" id="imgSrc" name="imgSrc" class="form-control" required>
+                    <label for="image">Hình ảnh:</label>
+                    <input type="file" id="image" name="image" class="form-control" 
+                           accept="image/*" required>
+                    <div id="imagePreview" class="mt-2"></div>
                 </div>
-                
+
                 <div class="form-group">
                     <div class="status-toggle">
                         <label for="status">Còn hàng:</label>
                         <input type="checkbox" id="status" name="status" checked>
                     </div>
                 </div>
-                
+
                 <div class="btn-container">
                     <a href="home" class="btn btn-secondary">Hủy</a>
                     <button type="submit" class="btn btn-primary">Thêm sản phẩm</button>
                 </div>
             </form>
         </div>
-        
+
         <footer>
             <jsp:include flush="true" page="footer.jsp"/>
         </footer>
     </body>
+    <script>
+        document.getElementById('image').addEventListener('change', function (e) {
+            const preview = document.getElementById('imagePreview');
+            preview.innerHTML = '';
+
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.maxWidth = '200px';
+                    img.style.marginTop = '10px';
+                    preview.appendChild(img);
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
 </html>

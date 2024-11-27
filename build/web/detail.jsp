@@ -148,49 +148,116 @@
                 margin-bottom: 10px;
                 font-size: 1.1em;
             }
-            /* Thêm vào phần style */
+            /* Modal Container */
             .modal {
-                display: none;
+                display: none; /* Ẩn mặc định */
                 position: fixed;
-                z-index: 1000;
-                left: 0;
                 top: 0;
+                left: 0;
                 width: 100%;
                 height: 100%;
-                background-color: rgba(0,0,0,0.5);
+                background-color: rgba(0, 0, 0, 0.5); /* Nền đen mờ */
+                z-index: 1000;
+                justify-content: center;
+                align-items: center;
             }
 
-            .modal.show {
-                display: block;
-            }
-
-            .modal.hide {
-                opacity: 0;
-            }
-
+            /* Modal Content */
             .modal-content {
-                background-color: #fefefe;
-                margin: 15% auto;
-                padding: 0;
+                background-color: #fff;
                 border-radius: 8px;
-                width: 400px;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                transform: translateY(-50px);
-                opacity: 0;
-                transition: all 0.3s ease;
+                padding: 20px;
+                width: 90%;
+                max-width: 500px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                animation: slideDown 0.3s ease-out;
             }
 
-            .modal.show .modal-content {
-                transform: translateY(0);
-                opacity: 1;
+            /* Modal Header */
+            .modal-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 1px solid #ddd;
+                padding-bottom: 10px;
             }
 
-            .modal.hide .modal-content {
-                transform: translateY(50px);
-                opacity: 0;
+            .modal-header h3 {
+                margin: 0;
+                font-size: 1.5rem;
+                color: #333;
             }
 
-            /* CSS khác giữ nguyên */
+            .modal-header .close {
+                font-size: 1.5rem;
+                cursor: pointer;
+                color: #aaa;
+                transition: color 0.2s;
+            }
+
+            .modal-header .close:hover {
+                color: #000;
+            }
+
+            /* Modal Body */
+            .modal-body {
+                margin: 20px 0;
+                font-size: 1rem;
+                color: #555;
+            }
+
+            .modal-body strong {
+                color: #d9534f; /* Màu đỏ nổi bật */
+            }
+
+            /* Modal Footer */
+            .modal-footer {
+                display: flex;
+                justify-content: flex-end;
+                gap: 10px;
+            }
+
+            .modal-footer .btn {
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 1rem;
+                transition: background-color 0.2s ease;
+            }
+
+            /* Secondary Button */
+            .modal-footer .btn-secondary {
+                background-color: #f0f0f0;
+                color: #333;
+            }
+
+            .modal-footer .btn-secondary:hover {
+                background-color: #ddd;
+            }
+
+            /* Danger Button */
+            .modal-footer .btn-danger {
+                background-color: #d9534f;
+                color: #fff;
+            }
+
+            .modal-footer .btn-danger:hover {
+                background-color: #c9302c;
+            }
+
+            /* Animation for Modal */
+            @keyframes slideDown {
+                from {
+                    transform: translateY(-50px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+
         </style>
     </head>
     <body>
@@ -244,6 +311,7 @@
                 </div>
             </div>
         </div>
+    <center>
         <div class="modal" id="deleteModal">
             <div class="modal-content">
                 <div class="modal-header">
@@ -264,38 +332,44 @@
                 </div>
             </div>
         </div>
-        <footer>
-            <jsp:include flush="true" page="footer.jsp"/>
-        </footer>
-    </body>
-    <script>
-        const modal = document.getElementById('deleteModal');
-        const confirmDelete = document.getElementById('confirmDelete');
+    </center>
 
-        function showDeleteModal(id) {
-            console.log("Opening modal for id:", id);
-            modal.style.display = "block"; // Thêm dòng này
-            modal.classList.add('show');
-            confirmDelete.href = "DeleteVegetable?id=" + id;  // URL phải khớp với urlPattern trong @WebServlet
-            console.log("Delete URL:", confirmDelete.href);
+    <footer>
+        <jsp:include flush="true" page="footer.jsp"/>
+    </footer>
+</body>
+<script>
+    const modal = document.getElementById('deleteModal');
+    const confirmDelete = document.getElementById('confirmDelete');
+
+    function showDeleteModal(id) {
+        console.log("Opening modal for id:", id);
+        modal.style.display = "block"; // Thêm dòng này
+        modal.classList.add('show');
+        confirmDelete.href = "DeleteVegetable?id=" + id;
+        console.log("Delete URL:", confirmDelete.href);
+    }
+
+    function openModal() {
+        document.getElementById("deleteModal").style.display = "flex";
+    }
+
+    function closeModal() {
+        document.getElementById("deleteModal").style.display = "none";
+    }
+
+    // Đóng modal khi click bên ngoài
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            closeModal();
         }
+    }
 
-        function closeModal() {
-            modal.classList.remove('show');
+    // Đóng modal khi nhấn ESC
+    document.addEventListener('keydown', function (event) {
+        if (event.key === "Escape") {
+            closeModal();
         }
-
-        // Đóng modal khi click bên ngoài
-        window.onclick = function (event) {
-            if (event.target == modal) {
-                closeModal();
-            }
-        }
-
-        // Đóng modal khi nhấn ESC
-        document.addEventListener('keydown', function (event) {
-            if (event.key === "Escape") {
-                closeModal();
-            }
-        });
-    </script>
+    });
+</script>
 </html>

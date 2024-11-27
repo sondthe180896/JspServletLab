@@ -203,7 +203,11 @@
             .add-button i {
                 font-size: 16px;
             }
-
+            .success {
+                color: green; 
+                font-weight: bold; 
+                font-size: 16px;
+            }
             /* Responsive */
             @media (max-width: 768px) {
                 .add-button {
@@ -232,13 +236,14 @@
         <div id="content">
             <!-- Thêm vào đầu nội dung, sau header -->
             <div class="container">
-                <c:if test="${not empty sessionScope.success}">
-                    <div class="alert alert-success">
-                        <i class="fas fa-check-circle"></i>
-                        ${sessionScope.success}
-                    </div>
-                    <c:remove var="success" scope="session" />
-                </c:if>
+                <center><c:if test="${not empty sessionScope.success}">
+                        <div class="alert alert-success">
+                            <i class="fas fa-check-circle"></i>
+                            ${sessionScope.success}
+                        </div>
+                        <c:remove var="success" scope="session" />
+                    </c:if>
+                </center>
 
                 <c:if test="${not empty sessionScope.error}">
                     <div class="alert alert-danger">

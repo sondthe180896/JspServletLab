@@ -48,4 +48,8 @@
         <servlet-name>DeleteVegetable</servlet-name>
         <url-pattern>/DeleteVegetable</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/uploads/*</url-pattern>
+    </servlet-mapping>
 </web-app>
